@@ -16,7 +16,7 @@ export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
   onOpenImport,
 }) => {
   const plannedCount = week.meals.filter((m) => m.course.trim().length > 0).length;
-  const budget = week.budgetGoal || 150;
+  const budget = week.budgetGoal || 850;
   const percentage = Math.min(Math.round((week.totalSpent / budget) * 100), 100);
   const isOverBudget = week.totalSpent > budget;
 

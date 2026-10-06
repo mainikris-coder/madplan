@@ -269,8 +269,8 @@ export function extractAndParseMealData(
   const normalizedWeeks: Record<string, WeekPlan> = {};
   let sourceType: ImportSummary['sourceType'] = 'full_database';
   let candidateSettings: AppSettings = {
-    currencySymbol: '$',
-    currencyPosition: 'prefix',
+    currencySymbol: 'kr.',
+    currencyPosition: 'suffix',
     theme: 'system',
   };
 
@@ -281,8 +281,8 @@ export function extractAndParseMealData(
     if (rawObj.settings && typeof rawObj.settings === 'object') {
       const s = rawObj.settings as Record<string, unknown>;
       candidateSettings = {
-        currencySymbol: typeof s.currencySymbol === 'string' ? s.currencySymbol : '$',
-        currencyPosition: s.currencyPosition === 'suffix' ? 'suffix' : 'prefix',
+        currencySymbol: typeof s.currencySymbol === 'string' ? s.currencySymbol : 'kr.',
+        currencyPosition: s.currencyPosition === 'prefix' ? 'prefix' : 'suffix',
         theme: s.theme === 'dark' || s.theme === 'light' ? s.theme : 'system',
       };
     }

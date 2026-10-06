@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Trash2, Plus, Check, DollarSign, Sparkles } from 'lucide-react';
+import { X, Trash2, Plus, Check, Coins, Sparkles } from 'lucide-react';
 import { MealEntry, DayOfWeek, IngredientItem } from '../../types/planner';
 import { getDateLabelForDay } from '../../utils/dateUtils';
 
@@ -17,14 +17,16 @@ interface MealEditModalProps {
 }
 
 const POPULAR_MEAL_SUGGESTIONS = [
-  'Spaghetti Bolognese',
-  'Tacos',
-  'Homemade Pizza',
-  'Chicken Stir Fry',
-  'Salmon Bowls',
-  'Steak & Potatoes',
-  'Pasta Carbonara',
-  'Chicken Salad',
+  'Boller i karry',
+  'Frikadeller med kartofler',
+  'Stegt flæsk med persillesovs',
+  'Tarteletter med høns i asparges',
+  'Hakkebøf med bløde løg',
+  'Pasta med kødsovs',
+  'Kylling i karry med ris',
+  'Laks med ovnbagte rodfrugter',
+  'Mørbradgryde',
+  'Hjemmelavet pizza',
 ];
 
 export const MealEditModal: React.FC<MealEditModalProps> = ({
@@ -209,7 +211,7 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
             </label>
             <div className="relative rounded-xl border border-slate-200 focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-brand-500 transition-all">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 font-semibold text-sm">
-                {currencyPosition === 'prefix' ? currencySymbol : <DollarSign className="w-4 h-4" />}
+                {currencyPosition === 'prefix' ? currencySymbol : <Coins className="w-4 h-4" />}
               </div>
               <input
                 id="meal-cost"
