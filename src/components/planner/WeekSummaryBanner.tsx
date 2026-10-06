@@ -1,17 +1,19 @@
 import React from 'react';
-import { Copy, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Copy, Sparkles, CheckCircle2, ClipboardPaste } from 'lucide-react';
 import { WeekPlan, AppSettings } from '../../types/planner';
 
 interface WeekSummaryBannerProps {
   week: WeekPlan;
   settings: AppSettings;
   onCopyNextWeek: () => void;
+  onOpenImport?: () => void;
 }
 
 export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
   week,
   settings,
   onCopyNextWeek,
+  onOpenImport,
 }) => {
   const plannedCount = week.meals.filter((m) => m.course.trim().length > 0).length;
   const budget = week.budgetGoal || 150;
@@ -90,21 +92,35 @@ export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
       </div>
 
       {/* Action shortcuts */}
-      <div className="pt-1 flex items-center justify-between gap-2 border-t border-slate-100">
+      <div className="pt-1 flex items-center justify-between gap-2 border-t border-slate-100 flex-wrap">
         <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
           Tip: Tap any meal card to edit
         </span>
 
-        <button
-          type="button"
-          onClick={onCopyNextWeek}
-          className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-brand-700 bg-slate-100 hover:bg-brand-50 px-2.5 py-1 rounded-lg transition-colors border border-slate-200/60"
-          title="Clone this schedule to next week"
-        >
-          <Copy className="w-3 h-3" />
-          Copy to next week
-        </button>
+        <div className="flex items-center gap-1.5">
+          {onOpenImport && (
+            <button
+              type="button"
+              onClick={onOpenImport}
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-700 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 px-2.5 py-1 rounded-lg transition-colors border border-brand-200/80 shadow-2xs"
+              title="Paste and import a meal plan"
+            >
+              <ClipboardPaste className="w-3 h-3 text-brand-600" />
+              Paste Plan
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={onCopyNextWeek}
+            className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-brand-700 bg-slate-100 hover:bg-brand-50 px-2.5 py-1 rounded-lg transition-colors border border-slate-200/60"
+            title="Clone this schedule to next week"
+          >
+            <Copy className="w-3 h-3" />
+            Copy to next week
+          </button>
+        </div>
       </div>
     </div>
   );

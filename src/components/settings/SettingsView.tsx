@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { usePlanner } from '../../context/PlannerContext';
 import {
   Download,
-  Upload,
   RotateCcw,
   Coins,
   ShieldCheck,
@@ -12,7 +11,9 @@ import {
   Smartphone,
   Share2,
   Copy,
+  ClipboardPaste,
 } from 'lucide-react';
+import { ImportModal } from './ImportModal';
 
 export const SettingsView: React.FC = () => {
   const {
@@ -34,14 +35,24 @@ export const SettingsView: React.FC = () => {
   const [budgetInput, setBudgetInput] = useState<string>(
     (selectedWeek.budgetGoal || 150).toString()
   );
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const showNotification = (type: 'success' | 'error', message: string) => {
     setNotification({ type, message });
     setTimeout(() => {
       setNotification(null);
     }, 3500);
+  };
+
+  const handleModalImport = (rawText: string, mode: 'merge' | 'replace') => {
+    const result = importData(rawText, mode);
+    if (result.success && result.summary) {
+      showNotification(
+        'success',
+        `Successfully imported ${result.summary.totalMealsPlanned} planned dinners across ${result.summary.weekCount} week(s)!`
+      );
+    }
+    return result;
   };
 
   // Currency selection
@@ -145,36 +156,6 @@ export const SettingsView: React.FC = () => {
     } catch {
       showNotification('error', 'Failed to export backup file.');
     }
-  };
-
-  // Trigger File Input for Import
-  const handleTriggerImport = () => {
-    fileInputRef.current?.click();
-  };
-
-  // Handle File Import
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const content = event.target?.result as string;
-      if (content) {
-        const result = importData(content);
-        if (result.success) {
-          showNotification('success', 'Backup data imported successfully!');
-        } else {
-          showNotification('error', result.error || 'Failed to import backup.');
-        }
-      }
-    };
-    reader.onerror = () => {
-      showNotification('error', 'Error reading backup file.');
-    };
-    reader.readAsText(file);
-    // Reset input
-    e.target.value = '';
   };
 
   // Handle Demo Reset
@@ -324,15 +305,6 @@ export const SettingsView: React.FC = () => {
           Because this app runs 100% in your browser with zero external servers, your data is saved in <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">localStorage</code>. Export and share your backup to sync across devices, or import a backup from another device.
         </p>
 
-        {/* Hidden file input for import */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json,application/json"
-          onChange={handleFileChange}
-          className="hidden"
-        />
-
         <div className="flex flex-col gap-2 pt-1">
           {/* Share Button (Primary) */}
           <button
@@ -364,14 +336,14 @@ export const SettingsView: React.FC = () => {
             Download Backup File
           </button>
 
-          {/* Import Button */}
+          {/* Paste & Import Button */}
           <button
             type="button"
-            onClick={handleTriggerImport}
-            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition-colors"
+            onClick={() => setIsImportModalOpen(true)}
+            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-brand-50 hover:bg-brand-100 active:bg-brand-200 text-brand-700 border border-brand-200/90 rounded-xl text-xs font-bold transition-colors shadow-2xs"
           >
-            <Upload className="w-4 h-4 text-slate-500" />
-            Import Plan Data (JSON)
+            <ClipboardPaste className="w-4 h-4 text-brand-600 shrink-0" />
+            Paste & Import Meal Plan (JSON)
           </button>
 
           {/* Reset button with confirmation modal/state */}
@@ -420,6 +392,21 @@ export const SettingsView: React.FC = () => {
           </p>
         </div>
       </div>
+
+      {/* Paste & Import Modal */}
+      {isImportModalOpen && (
+        <ImportModal
+          isOpen={isImportModalOpen}
+          onClose={() => setIsImportModalOpen(false)}
+          onImport={handleModalImport}
+          currencySymbol={settings.currencySymbol}
+          currencyPosition={settings.currencyPosition}
+          currentWeekDetails={{
+            year: selectedWeek.year,
+            weekNumber: selectedWeek.weekNumber,
+          }}
+        />
+      )}
     </div>
   );
 };
