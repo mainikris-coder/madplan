@@ -29,7 +29,7 @@ export function createEmptyWeek(year: number, weekNumber: number): WeekPlan {
     year,
     meals,
     totalSpent: 0,
-    budgetGoal: 150,
+    budgetGoal: 850,
     updatedAt: new Date().toISOString(),
   };
 }
@@ -56,100 +56,100 @@ export function generateSeedData(): AppDatabase {
   const historicalMealTemplates: Array<{
     meals: Array<{ day: DayOfWeek; course: string; cost: number; ingredients: string[] }>;
   }> = [
-    // Week 33
+    // Uge 1 (7 uger siden)
     {
       meals: [
-        { day: 'Monday', course: 'Pasta Carbonara', cost: 14.5, ingredients: ['Spaghetti', 'Pancetta', 'Eggs', 'Parmesan'] },
-        { day: 'Tuesday', course: 'Chicken Fajitas', cost: 19.0, ingredients: ['Chicken Breast', 'Tortillas', 'Bell Peppers', 'Onion'] },
-        { day: 'Wednesday', course: 'Tomato & Basil Soup', cost: 9.5, ingredients: ['Tomatoes', 'Basil', 'Heavy Cream', 'Garlic Bread'] },
-        { day: 'Thursday', course: 'Beef Chili con Carne', cost: 21.0, ingredients: ['Ground Beef', 'Kidney Beans', 'Tomatoes', 'Chili Spices'] },
-        { day: 'Friday', course: 'Fish Tacos', cost: 18.5, ingredients: ['White Fish Fillet', 'Cabbage Slaw', 'Lime', 'Tortillas'] },
-        { day: 'Saturday', course: 'Ribeye Steak & Fries', cost: 34.0, ingredients: ['Ribeye Steaks', 'Potatoes', 'Butter', 'Rosemary'] },
-        { day: 'Sunday', course: 'Vegetable Lasagna', cost: 16.0, ingredients: ['Lasagna Sheets', 'Spinach', 'Ricotta', 'Tomato Sauce'] },
+        { day: 'Monday', course: 'Pasta med kødsovs', cost: 75.0, ingredients: ['Hakket oksekød', 'Spaghetti', 'Hakkede tomater', 'Løg', 'Hvidløg'] },
+        { day: 'Tuesday', course: 'Kylling i karry med ris', cost: 95.0, ingredients: ['Kyllingebryst', 'Karrypasta', 'Kokosmælk', 'Basmatiris', 'Peberfrugt'] },
+        { day: 'Wednesday', course: 'Klassisk tomatsuppe', cost: 55.0, ingredients: ['Flåede tomater', 'Piskefløde', 'Suppenudler', 'Flûte'] },
+        { day: 'Thursday', course: 'Chili con carne', cost: 90.0, ingredients: ['Hakket oksekød', 'Kidneybønner', 'Hakkede tomater', 'Mørk chokolade', 'Ris'] },
+        { day: 'Friday', course: 'Hjemmelavet pizza', cost: 110.0, ingredients: ['Pizzadej', 'Revet mozzarella', 'Skinke', 'Tomatsauce', 'Champignon'] },
+        { day: 'Saturday', course: 'Entrecôte med pommes frites & bearnaise', cost: 185.0, ingredients: ['Entrecôte', 'Bagekartofler', 'Bearnaisesauce', 'Friske bønner'] },
+        { day: 'Sunday', course: 'Vegetarisk lasagne', cost: 85.0, ingredients: ['Lasagneplader', 'Spinat', 'Ricotta', 'Tomatsauce', 'Revet ost'] },
       ],
     },
-    // Week 34
+    // Uge 2
     {
       meals: [
-        { day: 'Monday', course: 'Teriyaki Chicken Rice', cost: 15.0, ingredients: ['Chicken Thighs', 'Soy Sauce', 'Jasmine Rice', 'Broccoli'] },
-        { day: 'Tuesday', course: 'Beef Burger Night', cost: 22.0, ingredients: ['Burger Buns', 'Ground Beef', 'Cheddar', 'Lettuce'] },
-        { day: 'Wednesday', course: 'Greek Salad & Pita', cost: 11.5, ingredients: ['Feta Cheese', 'Cucumbers', 'Kalamata Olives', 'Pita'] },
-        { day: 'Thursday', course: 'Lentil Dahl & Naan', cost: 10.0, ingredients: ['Red Lentils', 'Coconut Milk', 'Garlic', 'Naan'] },
-        { day: 'Friday', course: 'Homemade Pizza', cost: 17.5, ingredients: ['Pizza Dough', 'Mozzarella', 'Pepperoni', 'Tomato Puree'] },
-        { day: 'Saturday', course: 'Roast Lemon Chicken', cost: 26.0, ingredients: ['Whole Chicken', 'Lemons', 'Baby Potatoes', 'Thyme'] },
-        { day: 'Sunday', course: 'Pesto Gnocchi', cost: 12.0, ingredients: ['Gnocchi', 'Basil Pesto', 'Pine Nuts', 'Parmesan'] },
+        { day: 'Monday', course: 'Frikadeller med kartofler & brun sovs', cost: 85.0, ingredients: ['Hakket kalv og flæsk', 'Kartofler', 'Løg', 'Mælk', 'Sovsekulør'] },
+        { day: 'Tuesday', course: 'Tacos med oksekød & guacamole', cost: 115.0, ingredients: ['Tacoskaller', 'Hakket oksekød', 'Avocado', 'Revet cheddar', 'Tomatsalsa'] },
+        { day: 'Wednesday', course: 'Græsk salat med kyllingespyd & tzatziki', cost: 90.0, ingredients: ['Kyllingebryst', 'Fetaost', 'Agurk', 'Græsk yoghurt', 'Pitabrød'] },
+        { day: 'Thursday', course: 'Rød linsedal med naanbrød', cost: 65.0, ingredients: ['Røde linser', 'Kokosmælk', 'Ingefær', 'Hvidløg', 'Naanbrød'] },
+        { day: 'Friday', course: 'Hjemmelavede burgere med sprøde ovnkartofler', cost: 130.0, ingredients: ['Burgerboller', 'Hakket oksekød', 'Cheddar', 'Bacon', 'Bagekartofler'] },
+        { day: 'Saturday', course: 'Helstegt kylling med rodfrugter', cost: 140.0, ingredients: ['Hel kylling', 'Gulerødder', 'Pastinakker', 'Citron', 'Timian'] },
+        { day: 'Sunday', course: 'Pasta med cremet basilikumpesto', cost: 60.0, ingredients: ['Fettuccine', 'Grøn pesto', 'Pinjekerner', 'Parmesan', 'Rucola'] },
       ],
     },
-    // Week 35
+    // Uge 3
     {
       meals: [
-        { day: 'Monday', course: 'Turkey Meatballs', cost: 16.5, ingredients: ['Ground Turkey', 'Spaghetti', 'Marinara', 'Oregano'] },
-        { day: 'Tuesday', course: 'Quesadillas', cost: 13.0, ingredients: ['Flour Tortillas', 'Cheese Mix', 'Salsa', 'Guacamole'] },
-        { day: 'Wednesday', course: 'Thai Green Curry', cost: 20.0, ingredients: ['Chicken Breast', 'Green Curry Paste', 'Coconut Milk', 'Bamboo Shoots'] },
-        { day: 'Thursday', course: 'Minestrone Soup', cost: 11.0, ingredients: ['Beans', 'Pasta', 'Carrots', 'Celery', 'Vegetable Broth'] },
-        { day: 'Friday', course: 'Sushi Rolls Night', cost: 28.5, ingredients: ['Sushi Rice', 'Salmon', 'Nori Sheets', 'Avocado'] },
-        { day: 'Saturday', course: 'BBQ Pulled Pork', cost: 25.0, ingredients: ['Pork Shoulder', 'BBQ Sauce', 'Brioche Buns', 'Coleslaw'] },
-        { day: 'Sunday', course: 'Leftover Carnitas', cost: 6.0, ingredients: ['Leftover Pork', 'Tortillas', 'Cilantro'] },
+        { day: 'Monday', course: 'Boller i karry med løse ris', cost: 85.0, ingredients: ['Hakket svinekød', 'Løg', 'Madlavningsfløde', 'Karry', 'Basmatiris'] },
+        { day: 'Tuesday', course: 'Tortillas med pulled chicken & salsa', cost: 105.0, ingredients: ['Tortillapandekager', 'Kyllingelår', 'Majs', 'Creme fraiche', 'Jalapeños'] },
+        { day: 'Wednesday', course: 'Thaisuppe med kylling & nudler', cost: 95.0, ingredients: ['Kyllingestrimler', 'Kokosmælk', 'Rød karrypasta', 'Æggenudler', 'Forårsløg'] },
+        { day: 'Thursday', course: 'Kartoffel-porresuppe med sprød bacon', cost: 60.0, ingredients: ['Kartofler', 'Porrer', 'Bacontern', 'Piskefløde', 'Hvidløgsbrød'] },
+        { day: 'Friday', course: 'Sushi bowl med laks & edamame', cost: 155.0, ingredients: ['Sushiris', 'Fersk laks', 'Avocado', 'Edamamebønner', 'Chilimayo'] },
+        { day: 'Saturday', course: 'Mørbradgryde med bacon & cocktailpølser', cost: 165.0, ingredients: ['Svinemørbrad', 'Bacon', 'Cocktailpølser', 'Champignon', 'Piskefløde'] },
+        { day: 'Sunday', course: 'Restemad & rugbrød med lune deller', cost: 40.0, ingredients: ['Rugbrød', 'Rester af deller', 'Rødbeder', 'Remoulade'] },
       ],
     },
-    // Week 36
+    // Uge 4
     {
       meals: [
-        { day: 'Monday', course: 'Creamy Mushroom Risotto', cost: 14.0, ingredients: ['Arborio Rice', 'Cremini Mushrooms', 'White Wine', 'Parmesan'] },
-        { day: 'Tuesday', course: 'Tacos Supreme', cost: 21.5, ingredients: ['Hard Taco Shells', 'Ground Beef', 'Sour Cream', 'Cheddar'] },
-        { day: 'Wednesday', course: 'Caesar Salad with Chicken', cost: 15.0, ingredients: ['Romaine', 'Grilled Chicken', 'Croutons', 'Caesar Dressing'] },
-        { day: 'Thursday', course: 'Vegetable Stir Fry', cost: 13.0, ingredients: ['Tofu', 'Mixed Veggies', 'Egg Noodles', 'Sesame Oil'] },
-        { day: 'Friday', course: 'Fish & Chips', cost: 24.0, ingredients: ['Cod Fillets', 'Batter Mix', 'Tartar Sauce', 'Fries'] },
-        { day: 'Saturday', course: 'Beef Stew', cost: 27.0, ingredients: ['Beef Chuck', 'Red Wine', 'Carrots', 'Potatoes'] },
-        { day: 'Sunday', course: 'Macaroni & Cheese', cost: 9.5, ingredients: ['Elbow Macaroni', 'Sharp Cheddar', 'Milk', 'Breadcrumbs'] },
+        { day: 'Monday', course: 'Klassisk risotto med svampe', cost: 75.0, ingredients: ['Risottoris', 'Brune markchampignon', 'Hvidvin', 'Parmesan', 'Smør'] },
+        { day: 'Tuesday', course: 'Kødboller i tomatsauce med pasta', cost: 90.0, ingredients: ['Hakket oksekød', 'Penne', 'Hakkede tomater', 'Basilikum', 'Mozzarella'] },
+        { day: 'Wednesday', course: 'Cæsarsalat med grillet kylling', cost: 85.0, ingredients: ['Romainesalat', 'Kyllingebryst', 'Kroketter', 'Cæsardressing', 'Parmesan'] },
+        { day: 'Thursday', course: 'Wok med oksekød & grøntsager', cost: 110.0, ingredients: ['Oksekødsstrimler', 'Broccoli', 'Peberfrugt', 'Soja', 'Nudler'] },
+        { day: 'Friday', course: 'Fish and chips med tatarsauce', cost: 125.0, ingredients: ['Torskefilet', 'Kartofler', 'Tatarsauce', 'Citron', 'Grønne ærter'] },
+        { day: 'Saturday', course: 'Gullasch med kartoffelmos', cost: 145.0, ingredients: ['Skært oksekød', 'Kartofler', 'Løg', 'Paprika', 'Rødvin'] },
+        { day: 'Sunday', course: 'Macaroni and cheese', cost: 55.0, ingredients: ['Makaroni', 'Cheddarost', 'Mælk', 'Smør', 'Muskatnød'] },
       ],
     },
-    // Week 37
+    // Uge 5
     {
       meals: [
-        { day: 'Monday', course: 'Spinach & Feta Pie', cost: 13.5, ingredients: ['Phyllo Pastry', 'Spinach', 'Feta', 'Eggs'] },
-        { day: 'Tuesday', course: 'Korean Bibimbap', cost: 19.0, ingredients: ['Rice', 'Beef Strips', 'Fried Egg', 'Kimchi', 'Gochujang'] },
-        { day: 'Wednesday', course: 'Tomato Pasta', cost: 8.5, ingredients: ['Penne', 'Canned San Marzano Tomatoes', 'Garlic', 'Olive Oil'] },
-        { day: 'Thursday', course: 'Chicken Enchiladas', cost: 20.0, ingredients: ['Corn Tortillas', 'Shredded Chicken', 'Enchilada Sauce', 'Monterey Jack'] },
-        { day: 'Friday', course: 'Crispy Salmon Bowls', cost: 29.0, ingredients: ['Salmon Fillets', 'Brown Rice', 'Edamame', 'Spicy Mayo'] },
-        { day: 'Saturday', course: 'Lamb Chops & Veggies', cost: 35.0, ingredients: ['Lamb Chops', 'Garlic Butter', 'Asparagus', 'Mint Sauce'] },
-        { day: 'Sunday', course: 'Leftover Enchiladas', cost: 5.0, ingredients: ['Leftovers'] },
+        { day: 'Monday', course: 'Spinattærte med feta & cherrytomater', cost: 75.0, ingredients: ['Tærtedej', 'Spinat', 'Fetaost', 'Æg', 'Fløde'] },
+        { day: 'Tuesday', course: 'Biksemad med spejlæg & rødbeder', cost: 80.0, ingredients: ['Kødtern', 'Kartofler', 'Løg', 'Æg', 'Syltede rødbeder'] },
+        { day: 'Wednesday', course: 'Pasta Carbonara', cost: 85.0, ingredients: ['Spaghetti', 'Bacon', 'Æg', 'Parmesan', 'Friskkværnet peber'] },
+        { day: 'Thursday', course: 'Kylling fajitas med peberfrugt', cost: 115.0, ingredients: ['Kyllingebryst', 'Tortillas', 'Peberfrugt', 'Rødløg', 'Guacamole'] },
+        { day: 'Friday', course: 'Ovnbagt laks med dildkartofler & hollandaise', cost: 160.0, ingredients: ['Laksefilet', 'Små kartofler', 'Hollandaisesauce', 'Frisk dild', 'Asparges'] },
+        { day: 'Saturday', course: 'Lammekoteletter med bagt hvidløg & bønner', cost: 175.0, ingredients: ['Lammekoteletter', 'Hvidløgssmør', 'Grønne bønner', 'Kartoffelbåde'] },
+        { day: 'Sunday', course: 'Tøm køleskabet / Restemad', cost: 35.0, ingredients: ['Rester fra ugen', 'Salat'] },
       ],
     },
-    // Week 38
+    // Uge 6
     {
       meals: [
-        { day: 'Monday', course: 'Chicken Fried Rice', cost: 12.0, ingredients: ['Day-old Rice', 'Chicken', 'Peas', 'Eggs', 'Soy Sauce'] },
-        { day: 'Tuesday', course: 'Beef Burrito Bowls', cost: 18.5, ingredients: ['Ground Beef', 'Black Beans', 'Corn', 'Avocado'] },
-        { day: 'Wednesday', course: 'Butternut Squash Soup', cost: 10.0, ingredients: ['Butternut Squash', 'Ginger', 'Coconut Cream', 'Pumpkin Seeds'] },
-        { day: 'Thursday', course: 'Pork Chops & Apple Sauce', cost: 19.5, ingredients: ['Pork Chops', 'Apples', 'Cinnamon', 'Green Beans'] },
-        { day: 'Friday', course: 'Takeout-style Lo Mein', cost: 14.0, ingredients: ['Lo Mein Noodles', 'Cabbage', 'Carrots', 'Oyster Sauce'] },
-        { day: 'Saturday', course: 'Homemade Burgers', cost: 23.5, ingredients: ['Ground Chuck', 'Brioche Buns', 'Pickles', 'Bacon'] },
-        { day: 'Sunday', course: 'Tortellini in Brodo', cost: 11.0, ingredients: ['Cheese Tortellini', 'Chicken Broth', 'Parmesan'] },
+        { day: 'Monday', course: 'Stegte ris med kylling & grønt', cost: 70.0, ingredients: ['Kogte ris', 'Kyllingetern', 'Ærter', 'Gulerødder', 'Æg', 'Sojasauce'] },
+        { day: 'Tuesday', course: 'Hakkebøf med bløde løg, kartofler & brun sovs', cost: 120.0, ingredients: ['Hakket oksekød', 'Store løg', 'Kartofler', 'Smør', 'Fløde'] },
+        { day: 'Wednesday', course: 'Hokkaidosuppe med ristede græskarkerner', cost: 65.0, ingredients: ['Hokkaidogræskar', 'Kokosmælk', 'Ingefær', 'Græskarkerner', 'Flûte'] },
+        { day: 'Thursday', course: 'Koteletter i fad med champignon & bacon', cost: 125.0, ingredients: ['Svinekoteletter', 'Champignon', 'Bacon', 'Hakkede tomater', 'Ris'] },
+        { day: 'Friday', course: 'Mexicansk burrito bowl', cost: 105.0, ingredients: ['Hakket oksekød', 'Sorte bønner', 'Majs', 'Ris', 'Salsa', 'Cheddar'] },
+        { day: 'Saturday', course: 'Ribeye med rødvinssauce & ovnbagte kartofler', cost: 190.0, ingredients: ['Ribeye bøffer', 'Bagekartofler', 'Rødvinssauce', 'Broccolini'] },
+        { day: 'Sunday', course: 'Tortellini i cremet tomatsauce', cost: 60.0, ingredients: ['Ricotta-spinat tortellini', 'Hakkede tomater', 'Fløde', 'Parmesan'] },
       ],
     },
-    // Week 39
+    // Uge 7
     {
       meals: [
-        { day: 'Monday', course: 'Shrimp Scampi', cost: 22.0, ingredients: ['Shrimp', 'Linguine', 'Garlic', 'White Wine', 'Parsley'] },
-        { day: 'Tuesday', course: 'Chicken Tikka Masala', cost: 21.0, ingredients: ['Chicken Breast', 'Tikka Masala Sauce', 'Basmati Rice', 'Naan'] },
-        { day: 'Wednesday', course: 'Avocado Toast & Eggs', cost: 9.0, ingredients: ['Sourdough Bread', 'Avocados', 'Eggs', 'Chili Flakes'] },
-        { day: 'Thursday', course: 'Stuffed Bell Peppers', cost: 16.0, ingredients: ['Bell Peppers', 'Ground Beef', 'Rice', 'Tomato Sauce'] },
-        { day: 'Friday', course: 'Artisan Pizza Night', cost: 18.0, ingredients: ['Flour', 'Yeast', 'Buffalo Mozzarella', 'Prosciutto'] },
-        { day: 'Saturday', course: 'Slow Cooker Pot Roast', cost: 31.0, ingredients: ['Chuck Roast', 'Carrots', 'Potatoes', 'Beef Stock'] },
-        { day: 'Sunday', course: 'Vegetable Fried Noodles', cost: 10.5, ingredients: ['Noodles', 'Bok Choy', 'Mushrooms', 'Soy Sauce'] },
+        { day: 'Monday', course: 'Hvidløgsrejer med pasta & citron', cost: 120.0, ingredients: ['Kæmperejer', 'Linguine', 'Hvidløg', 'Hvidvin', 'Frisk persille'] },
+        { day: 'Tuesday', course: 'Butter chicken med basmatiris', cost: 110.0, ingredients: ['Kyllingebryst', 'Smør', 'Tandoori krydderi', 'Fløde', 'Basmatiris', 'Naanbrød'] },
+        { day: 'Wednesday', course: 'Rugbrødsbord med fiskefilet & lun leverpostej', cost: 75.0, ingredients: ['Rugbrød', 'Fiskefileter', 'Remoulade', 'Leverpostej', 'Bacon'] },
+        { day: 'Thursday', course: 'Fyldte peberfrugter med oksekød & ris', cost: 95.0, ingredients: ['Røde peberfrugter', 'Hakket oksekød', 'Ris', 'Revet ost', 'Tomatsauce'] },
+        { day: 'Friday', course: 'Italiensk pizza aften', cost: 115.0, ingredients: ['Pizzamel tipo 00', 'Gær', 'Bøffelmozzarella', 'Parmaskinke', 'Rucola'] },
+        { day: 'Saturday', course: 'Gammeldags oksesteg med glaserede løg', cost: 180.0, ingredients: ['Oksesteg', 'Perleløg', 'Kartofler', 'Brun sovs', 'Tyttebær'] },
+        { day: 'Sunday', course: 'Æggekage med bacon, tomat & purløg', cost: 55.0, ingredients: ['Æg', 'Mælk', 'Bacon i skiver', 'Tomater', 'Purløg', 'Rugbrød'] },
       ],
     },
-    // Week 40 (Current Week - directly from handoff plan!)
+    // Uge 8 (Nuværende uge)
     {
       meals: [
-        { day: 'Monday', course: 'Spaghetti Bolognese', cost: 15.0, ingredients: ['Minced Beef', 'Spaghetti', 'Crushed Tomatoes', 'Onion', 'Garlic'] },
-        { day: 'Tuesday', course: 'Tacos', cost: 22.5, ingredients: ['Taco Shells', 'Ground Beef', 'Cheese', 'Salsa', 'Lettuce'] },
-        { day: 'Wednesday', course: 'Chicken Salad', cost: 12.0, ingredients: ['Chicken Breast', 'Mixed Greens', 'Cherry Tomatoes', 'Vinaigrette'] },
-        { day: 'Thursday', course: 'Stir Fry', cost: 18.0, ingredients: ['Beef Strips', 'Bell Peppers', 'Broccoli', 'Soy Sauce', 'Rice'] },
-        { day: 'Friday', course: 'Homemade Pizza', cost: 20.0, ingredients: ['Pizza Dough', 'Mozzarella', 'Ham', 'Tomato Sauce'] },
-        { day: 'Saturday', course: 'Steak and Potatoes', cost: 30.0, ingredients: ['Sirloin Steaks', 'Baking Potatoes', 'Butter', 'Garlic'] },
-        { day: 'Sunday', course: 'Leftovers', cost: 8.0, ingredients: ['Leftover Steaks & Pizza', 'Side Salad'] },
+        { day: 'Monday', course: 'Boller i karry med æbletern & ris', cost: 85.0, ingredients: ['Hakket svinekød', 'Løg', 'Madlavningsfløde', 'Karry', 'Syrlige æbler', 'Basmatiris'] },
+        { day: 'Tuesday', course: 'Tarteletter med høns i asparges', cost: 95.0, ingredients: ['Tarteletbunde', 'Kyllingekød', 'Hvide asparges', 'Smør', 'Mælk'] },
+        { day: 'Wednesday', course: 'Pasta Carbonara', cost: 80.0, ingredients: ['Spaghetti', 'Bacon', 'Æg', 'Parmesan', 'Friskkværnet peber'] },
+        { day: 'Thursday', course: 'Hakkebøffer med bløde løg & skysauce', cost: 115.0, ingredients: ['Hakket oksekød', 'Løg', 'Kartofler', 'Sky', 'Syltede agurker'] },
+        { day: 'Friday', course: 'Stegt flæsk med persillesovs & kartofler', cost: 135.0, ingredients: ['Stegeflæsk i skiver', 'Kartofler', 'Smør', 'Mælk', 'Frisk kruspersille'] },
+        { day: 'Saturday', course: 'Laks med ovnbagte rodfrugter & urtemayo', cost: 155.0, ingredients: ['Lakseportioner', 'Gulerødder', 'Pastinakker', 'Rødbeder', 'Krydderurtemayo'] },
+        { day: 'Sunday', course: 'Søndags-restemad & sprød salat', cost: 40.0, ingredients: ['Rester fra ugens retter', 'Blandet grøn salat', 'Vinaigrette'] },
       ],
     },
   ];
@@ -181,7 +181,7 @@ export function generateSeedData(): AppDatabase {
       year: weekYear,
       meals: weekMeals,
       totalSpent: Math.round(total * 100) / 100,
-      budgetGoal: 150,
+      budgetGoal: 850,
       updatedAt: new Date().toISOString(),
     };
   });
@@ -193,8 +193,8 @@ export function generateSeedData(): AppDatabase {
     currentWeekId,
     weeks,
     settings: {
-      currencySymbol: '$',
-      currencyPosition: 'prefix',
+      currencySymbol: 'kr.',
+      currencyPosition: 'suffix',
       theme: 'system',
     },
   };
@@ -266,8 +266,8 @@ export function clearAllData(currentSettings?: AppDatabase['settings']): AppData
       [currentWeekId]: emptyWeek,
     },
     settings: currentSettings || {
-      currencySymbol: '$',
-      currencyPosition: 'prefix',
+      currencySymbol: 'kr.',
+      currencyPosition: 'suffix',
       theme: 'system',
     },
   };
@@ -303,8 +303,8 @@ export function importDatabaseJSON(jsonStr: string): { success: boolean; error?:
       currentWeekId: parsed.currentWeekId || Object.keys(parsed.weeks)[0] || '',
       weeks: parsed.weeks,
       settings: parsed.settings || {
-        currencySymbol: '$',
-        currencyPosition: 'prefix',
+        currencySymbol: 'kr.',
+        currencyPosition: 'suffix',
         theme: 'system',
       },
     };

@@ -88,11 +88,11 @@ export const SpendingChart: React.FC<SpendingChartProps> = ({
     weekLabel: `W${w.weekNumber}`,
     dateRange: formatWeekDateRange(w.year, w.weekNumber),
     totalSpent: w.totalSpent,
-    budgetGoal: w.budgetGoal || 150,
+    budgetGoal: w.budgetGoal || 850,
     meals: w.meals,
   }));
 
-  const maxBudget = Math.max(...weeks.map((w) => w.budgetGoal || 150), 150);
+  const maxBudget = Math.max(...weeks.map((w) => w.budgetGoal || 850), 850);
 
   return (
     <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs space-y-3">

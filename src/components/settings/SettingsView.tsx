@@ -36,7 +36,7 @@ export const SettingsView: React.FC = () => {
   const [confirmClear, setConfirmClear] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const [budgetInput, setBudgetInput] = useState<string>(
-    (selectedWeek.budgetGoal || 150).toString()
+    (selectedWeek.budgetGoal || 850).toString()
   );
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
@@ -60,9 +60,9 @@ export const SettingsView: React.FC = () => {
 
   // Currency selection
   const popularCurrencies = [
-    { symbol: '$', name: 'USD ($)', pos: 'prefix' as const },
     { symbol: 'kr.', name: 'DKK (kr.)', pos: 'suffix' as const },
     { symbol: '€', name: 'EUR (€)', pos: 'prefix' as const },
+    { symbol: '$', name: 'USD ($)', pos: 'prefix' as const },
     { symbol: '£', name: 'GBP (£)', pos: 'prefix' as const },
   ];
 
@@ -293,7 +293,7 @@ export const SettingsView: React.FC = () => {
               value={budgetInput}
               onChange={(e) => setBudgetInput(e.target.value)}
               className="w-full px-3 py-2 rounded-xl bg-white text-sm font-bold text-slate-800 focus:outline-hidden"
-              placeholder="150"
+              placeholder="850"
             />
           </div>
           <button

@@ -168,9 +168,9 @@ function mergeSettings(
   existingSettings: any
 ): { currencySymbol: string; currencyPosition: 'prefix' | 'suffix'; theme: 'light' | 'dark' | 'system' } {
   return {
-    currencySymbol: importedSettings?.currencySymbol ?? existingSettings?.currencySymbol ?? '$',
+    currencySymbol: importedSettings?.currencySymbol ?? existingSettings?.currencySymbol ?? 'kr.',
     currencyPosition:
-      importedSettings?.currencyPosition ?? existingSettings?.currencyPosition ?? 'prefix',
+      importedSettings?.currencyPosition ?? existingSettings?.currencyPosition ?? 'suffix',
     theme: importedSettings?.theme ?? existingSettings?.theme ?? 'system',
   };
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight, Calendar, DollarSign } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar, Coins } from 'lucide-react';
 
 interface HeaderProps {
   currentWeekText: string;
@@ -84,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
                 : 'bg-brand-50 text-brand-800 border border-brand-200'
             }`}
           >
-            <DollarSign className="w-3.5 h-3.5 opacity-70" />
+            <Coins className="w-3.5 h-3.5 opacity-70" />
             <span>{formattedSpend}</span>
           </div>
         </div>
