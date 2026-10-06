@@ -14,8 +14,9 @@ import {
   recalculateWeekTotal,
   resetToDemoData,
   exportDatabaseJSON,
-  importDatabaseJSON,
 } from '../services/storageService';
+import { extractAndParseMealData, ImportSummary } from '../services/importParser';
+import { mergeDataWithExisting } from '../services/mergeService';
 import {
   formatWeekId,
   parseWeekId,
@@ -42,7 +43,10 @@ interface PlannerContextType {
   updateSettings: (newSettings: Partial<AppSettings>) => void;
   resetData: () => void;
   exportData: () => string;
-  importData: (jsonStr: string) => { success: boolean; error?: string };
+  importData: (
+    jsonStr: string,
+    mode?: 'merge' | 'replace'
+  ) => { success: boolean; error?: string; summary?: ImportSummary };
 }
 
 const PlannerContext = createContext<PlannerContextType | undefined>(undefined);
@@ -276,18 +280,41 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return exportDatabaseJSON();
   }, []);
 
-  // Import JSON
-  const importData = useCallback((jsonStr: string) => {
-    const result = importDatabaseJSON(jsonStr);
-    if (result.success && result.db) {
-      setDatabase(result.db);
-      if (result.db.currentWeekId && result.db.weeks[result.db.currentWeekId]) {
-        setSelectedWeekId(result.db.currentWeekId);
+  // Import JSON / Pasted Text
+  const importData = useCallback(
+    (jsonStr: string, mode: 'merge' | 'replace' = 'merge') => {
+      const parsed = extractAndParseMealData(jsonStr, {
+        year: selectedWeek.year,
+        weekNumber: selectedWeek.weekNumber,
+      });
+
+      if (!parsed.success) {
+        return { success: false, error: parsed.error };
       }
-      return { success: true };
-    }
-    return { success: false, error: result.error || 'Failed to parse JSON' };
-  }, []);
+
+      let finalDb: AppDatabase;
+      if (mode === 'merge') {
+        finalDb = mergeDataWithExisting(parsed.db, database);
+      } else {
+        finalDb = parsed.db;
+      }
+
+      saveDatabase(finalDb);
+      setDatabase(finalDb);
+
+      // Focus the imported week in view
+      const targetWeekId = parsed.db.currentWeekId || Object.keys(parsed.db.weeks)[0];
+      if (targetWeekId && finalDb.weeks[targetWeekId]) {
+        setSelectedWeekId(targetWeekId);
+      }
+
+      return {
+        success: true,
+        summary: parsed.summary,
+      };
+    },
+    [database, selectedWeek.year, selectedWeek.weekNumber]
+  );
 
   return (
     <PlannerContext.Provider

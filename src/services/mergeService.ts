@@ -41,20 +41,7 @@ export function mergeDataWithExisting(
  * Merges two week plans, keeping the most recent version for each meal.
  */
 function mergeWeeks(importedWeek: WeekPlan, existingWeek: WeekPlan): WeekPlan {
-  const importedTime = new Date(importedWeek.updatedAt).getTime();
-  const existingTime = new Date(existingWeek.updatedAt).getTime();
-
-  // If imported week is much newer (>1 hour), use it entirely
-  if (importedTime > existingTime + 3600000) {
-    return importedWeek;
-  }
-
-  // If existing week is much newer, keep it
-  if (existingTime > importedTime + 3600000) {
-    return existingWeek;
-  }
-
-  // Times are close, merge meals individually
+  // Merge meals day-by-day so planned meals are merged without losing data
   const mergedMeals = mergeMeals(importedWeek.meals, existingWeek.meals);
 
   return {
