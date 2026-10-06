@@ -13,6 +13,7 @@ import {
   createEmptyWeek,
   recalculateWeekTotal,
   resetToDemoData,
+  clearAllData,
   exportDatabaseJSON,
 } from '../services/storageService';
 import { extractAndParseMealData, ImportSummary } from '../services/importParser';
@@ -42,6 +43,7 @@ interface PlannerContextType {
   copyCurrentWeekToNext: () => void;
   updateSettings: (newSettings: Partial<AppSettings>) => void;
   resetData: () => void;
+  clearData: () => void;
   exportData: () => string;
   importData: (
     jsonStr: string,
@@ -275,6 +277,14 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setSelectedWeekId(formatWeekId(current.year, current.weekNumber));
   }, []);
 
+  // Clear all meal plan data
+  const clearData = useCallback(() => {
+    const cleared = clearAllData(database.settings);
+    setDatabase(cleared);
+    const current = getISOWeekDetails();
+    setSelectedWeekId(formatWeekId(current.year, current.weekNumber));
+  }, [database.settings]);
+
   // Export JSON
   const exportData = useCallback(() => {
     return exportDatabaseJSON();
@@ -335,6 +345,7 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
         copyCurrentWeekToNext,
         updateSettings,
         resetData,
+        clearData,
         exportData,
         importData,
       }}
