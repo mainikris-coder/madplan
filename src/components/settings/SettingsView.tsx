@@ -10,6 +10,8 @@ import {
   CheckCircle,
   AlertCircle,
   Smartphone,
+  Share2,
+  Copy,
 } from 'lucide-react';
 
 export const SettingsView: React.FC = () => {
@@ -71,7 +73,61 @@ export const SettingsView: React.FC = () => {
     }
   };
 
-  // Handle Export to JSON
+  // Copy JSON to clipboard
+  const handleCopyJSON = async () => {
+    try {
+      const dataStr = exportData();
+      await navigator.clipboard.writeText(dataStr);
+      showNotification('success', 'JSON copied to clipboard! Paste into messaging app.');
+    } catch {
+      showNotification('error', 'Failed to copy to clipboard.');
+    }
+  };
+
+  // Share via native Web Share API
+  const handleShareJSON = async () => {
+    try {
+      const dataStr = exportData();
+      const dateStr = new Date().toISOString().slice(0, 10);
+      const fileName = `madplan-backup-${dateStr}.json`;
+
+      // Check if Web Share API is available
+      if (navigator.share) {
+        try {
+          // Try to share with file (mobile)
+          const file = new File([dataStr], fileName, { type: 'application/json' });
+          await navigator.share({
+            title: 'madplan Meal Plan Backup',
+            text: 'Here is my meal plan backup for syncing across devices:',
+            files: [file],
+          });
+          showNotification('success', 'Backup shared successfully!');
+        } catch (shareErr) {
+          // If file sharing fails, fall back to text sharing
+          if ((shareErr as Error).name !== 'AbortError') {
+            try {
+              await navigator.share({
+                title: 'madplan Meal Plan Backup',
+                text: `Here is my meal plan backup:\n\n${dataStr}`,
+              });
+              showNotification('success', 'Backup shared successfully!');
+            } catch (textShareErr) {
+              if ((textShareErr as Error).name !== 'AbortError') {
+                // User cancelled, don't show error
+              }
+            }
+          }
+        }
+      } else {
+        // Fallback to copy if Web Share API not available
+        handleCopyJSON();
+      }
+    } catch (err) {
+      showNotification('error', 'Failed to share backup.');
+    }
+  };
+
+  // Handle Export to JSON (download as file)
   const handleExport = () => {
     try {
       const dataStr = exportData();
@@ -265,7 +321,7 @@ export const SettingsView: React.FC = () => {
           Backup & Data Portability
         </h3>
         <p className="text-xs text-slate-500 leading-relaxed">
-          Because this app runs 100% in your browser with zero external servers, your data is saved in <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">localStorage</code>. Export a backup file to keep your family plans safe or transfer to another device.
+          Because this app runs 100% in your browser with zero external servers, your data is saved in <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700">localStorage</code>. Export and share your backup to sync across devices, or import a backup from another device.
         </p>
 
         {/* Hidden file input for import */}
@@ -278,19 +334,41 @@ export const SettingsView: React.FC = () => {
         />
 
         <div className="flex flex-col gap-2 pt-1">
+          {/* Share Button (Primary) */}
+          <button
+            type="button"
+            onClick={handleShareJSON}
+            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-brand-500 hover:bg-brand-600 active:bg-brand-700 text-white rounded-xl text-xs font-semibold transition-colors shadow-xs"
+          >
+            <Share2 className="w-4 h-4" />
+            Share Backup via Messaging
+          </button>
+
+          {/* Copy Button (Secondary) */}
+          <button
+            type="button"
+            onClick={handleCopyJSON}
+            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition-colors"
+          >
+            <Copy className="w-4 h-4 text-slate-500" />
+            Copy Backup JSON
+          </button>
+
+          {/* Download Button (Tertiary) */}
           <button
             type="button"
             onClick={handleExport}
-            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition-colors border border-slate-200/60"
+            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition-colors"
           >
             <Download className="w-4 h-4 text-slate-500" />
-            Export Plan Data (JSON)
+            Download Backup File
           </button>
 
+          {/* Import Button */}
           <button
             type="button"
             onClick={handleTriggerImport}
-            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition-colors border border-slate-200/60"
+            className="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition-colors"
           >
             <Upload className="w-4 h-4 text-slate-500" />
             Import Plan Data (JSON)
@@ -301,7 +379,7 @@ export const SettingsView: React.FC = () => {
             <button
               type="button"
               onClick={() => setConfirmReset(true)}
-              className="flex items-center justify-center gap-2 w-full py-2.5 px-3 text-rose-600 hover:bg-rose-50 rounded-xl text-xs font-semibold transition-colors border border-transparent hover:border-rose-200 mt-1"
+              className="flex items-center justify-center gap-2 w-full py-2.5 px-3 text-rose-600 hover:bg-rose-50 rounded-xl text-xs font-semibold transition-colors border border-transparent hover:border-rose-200"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               Reset to Demo Sample Data
