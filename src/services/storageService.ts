@@ -251,6 +251,32 @@ export function resetToDemoData(): AppDatabase {
 }
 
 /**
+ * Clears all meal plan data, wiping out all weeks and starting with an empty current week.
+ * Preserves user settings if provided.
+ */
+export function clearAllData(currentSettings?: AppDatabase['settings']): AppDatabase {
+  const current = getISOWeekDetails();
+  const currentWeekId = formatWeekId(current.year, current.weekNumber);
+  const emptyWeek = createEmptyWeek(current.year, current.weekNumber);
+
+  const cleared: AppDatabase = {
+    version: CURRENT_VERSION,
+    currentWeekId,
+    weeks: {
+      [currentWeekId]: emptyWeek,
+    },
+    settings: currentSettings || {
+      currencySymbol: '$',
+      currencyPosition: 'prefix',
+      theme: 'system',
+    },
+  };
+
+  saveDatabase(cleared);
+  return cleared;
+}
+
+/**
  * Exports the entire database as a pretty-printed JSON string.
  */
 export function exportDatabaseJSON(): string {
