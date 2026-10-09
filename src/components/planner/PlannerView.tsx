@@ -6,6 +6,7 @@ import { WeekSummaryBanner } from './WeekSummaryBanner';
 import { ImportModal } from '../settings/ImportModal';
 import { DayOfWeek, DAYS_OF_WEEK, MealEntry } from '../../types/planner';
 import { CheckCircle2 } from 'lucide-react';
+import { useTranslation } from '../../i18n';
 
 export const PlannerView: React.FC = () => {
   const {
@@ -17,6 +18,8 @@ export const PlannerView: React.FC = () => {
     importData,
   } = usePlanner();
 
+  const { t } = useTranslation();
+
   const [editingDay, setEditingDay] = useState<DayOfWeek | null>(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -26,6 +29,11 @@ export const PlannerView: React.FC = () => {
     setTimeout(() => {
       setToastMessage(null);
     }, 4000);
+  };
+
+  const handleCopyWeek = () => {
+    copyCurrentWeekToNext();
+    showToast(t.copiedToNextWeek(selectedWeek.weekNumber + 1));
   };
 
   const currentEditingMeal: MealEntry | undefined = editingDay
@@ -44,7 +52,7 @@ export const PlannerView: React.FC = () => {
     const result = importData(rawText, mode);
     if (result.success && result.summary) {
       showToast(
-        `Imported ${result.summary.totalMealsPlanned} planned dinners across ${result.summary.weekCount} week(s)!`
+        t.importSuccessToast(result.summary.totalMealsPlanned, result.summary.weekCount)
       );
     }
     return result;
@@ -67,7 +75,7 @@ export const PlannerView: React.FC = () => {
       <WeekSummaryBanner
         week={selectedWeek}
         settings={settings}
-        onCopyNextWeek={copyCurrentWeekToNext}
+        onCopyNextWeek={handleCopyWeek}
         onOpenImport={() => setIsImportModalOpen(true)}
       />
 
@@ -75,10 +83,10 @@ export const PlannerView: React.FC = () => {
       <div className="space-y-2.5">
         <div className="flex items-center justify-between px-1">
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Daily Dinners
+            {t.dailyDinners}
           </h2>
           <span className="text-[11px] text-slate-400 font-medium">
-            Monday – Sunday
+            {t.mondayToSunday}
           </span>
         </div>
 

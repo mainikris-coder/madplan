@@ -1,6 +1,7 @@
 import React from 'react';
 import { Copy, Sparkles, CheckCircle2, ClipboardPaste } from 'lucide-react';
 import { WeekPlan, AppSettings } from '../../types/planner';
+import { useTranslation } from '../../i18n';
 
 interface WeekSummaryBannerProps {
   week: WeekPlan;
@@ -15,6 +16,7 @@ export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
   onCopyNextWeek,
   onOpenImport,
 }) => {
+  const { t } = useTranslation();
   const plannedCount = week.meals.filter((m) => m.course.trim().length > 0).length;
   const budget = week.budgetGoal || 850;
   const percentage = Math.min(Math.round((week.totalSpent / budget) * 100), 100);
@@ -28,20 +30,25 @@ export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
     ? `${settings.currencySymbol}${budget.toFixed(2)}`
     : `${budget.toFixed(2)} ${settings.currencySymbol}`;
 
+  const remainingVal = Math.max(0, budget - week.totalSpent);
+  const formattedRemaining = settings.currencyPosition === 'prefix'
+    ? `${settings.currencySymbol}${remainingVal.toFixed(2)}`
+    : `${remainingVal.toFixed(2)} ${settings.currencySymbol}`;
+
   return (
     <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs space-y-3">
       {/* Top metrics row */}
       <div className="flex items-center justify-between">
         <div>
           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            Weekly Grocery Budget
+            {t.weeklyGroceryBudget}
           </span>
           <div className="flex items-baseline gap-1.5 mt-0.5">
             <span className={`text-lg font-black tracking-tight ${isOverBudget ? 'text-rose-600' : 'text-slate-900'}`}>
               {formattedSpent}
             </span>
             <span className="text-xs font-medium text-slate-400">
-              / {formattedBudget} target
+              / {formattedBudget} {t.target}
             </span>
           </div>
         </div>
@@ -49,7 +56,7 @@ export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
         {/* Days planned indicator */}
         <div className="text-right">
           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            Dinners Planned
+            {t.dinnersPlanned}
           </span>
           <div className="flex items-center justify-end gap-1 mt-0.5">
             <span className="text-sm font-bold text-slate-800">
@@ -77,16 +84,11 @@ export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
           />
         </div>
         <div className="flex justify-between text-[10px] text-slate-400 font-medium">
-          <span>{percentage}% of budget used</span>
+          <span>{t.budgetUsedPercent(percentage)}</span>
           {isOverBudget ? (
-            <span className="text-rose-600 font-semibold">Exceeded budget</span>
+            <span className="text-rose-600 font-semibold">{t.exceededBudget}</span>
           ) : (
-            <span>
-              {settings.currencyPosition === 'prefix'
-                ? `${settings.currencySymbol}${(budget - week.totalSpent).toFixed(2)}`
-                : `${(budget - week.totalSpent).toFixed(2)} ${settings.currencySymbol}`}{' '}
-              remaining
-            </span>
+            <span>{t.budgetRemaining(formattedRemaining)}</span>
           )}
         </div>
       </div>
@@ -95,7 +97,7 @@ export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
       <div className="pt-1 flex items-center justify-between gap-2 border-t border-slate-100 flex-wrap">
         <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          Tip: Tap any meal card to edit
+          {t.tipTapToEdit}
         </span>
 
         <div className="flex items-center gap-1.5">
@@ -104,10 +106,10 @@ export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
               type="button"
               onClick={onOpenImport}
               className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-700 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 px-2.5 py-1 rounded-lg transition-colors border border-brand-200/80 shadow-2xs"
-              title="Paste and import a meal plan"
+              title={t.pastePlan}
             >
               <ClipboardPaste className="w-3 h-3 text-brand-600" />
-              Paste Plan
+              {t.pastePlan}
             </button>
           )}
 
@@ -115,10 +117,10 @@ export const WeekSummaryBanner: React.FC<WeekSummaryBannerProps> = ({
             type="button"
             onClick={onCopyNextWeek}
             className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-brand-700 bg-slate-100 hover:bg-brand-50 px-2.5 py-1 rounded-lg transition-colors border border-slate-200/60"
-            title="Clone this schedule to next week"
+            title={t.copyToNextWeek}
           >
             <Copy className="w-3 h-3" />
-            Copy to next week
+            {t.copyToNextWeek}
           </button>
         </div>
       </div>

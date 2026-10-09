@@ -166,12 +166,13 @@ function mergeIngredients(
 function mergeSettings(
   importedSettings: any,
   existingSettings: any
-): { currencySymbol: string; currencyPosition: 'prefix' | 'suffix'; theme: 'light' | 'dark' | 'system' } {
+): { currencySymbol: string; currencyPosition: 'prefix' | 'suffix'; theme: 'light' | 'dark' | 'system'; language: 'da' | 'en' } {
   return {
     currencySymbol: importedSettings?.currencySymbol ?? existingSettings?.currencySymbol ?? 'kr.',
     currencyPosition:
       importedSettings?.currencyPosition ?? existingSettings?.currencyPosition ?? 'suffix',
     theme: importedSettings?.theme ?? existingSettings?.theme ?? 'system',
+    language: importedSettings?.language ?? existingSettings?.language ?? 'da',
   };
 }
 

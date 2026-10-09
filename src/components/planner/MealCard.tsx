@@ -2,6 +2,7 @@ import React from 'react';
 import { Plus, Edit2, ShoppingBag, Utensils } from 'lucide-react';
 import { MealEntry, DayOfWeek } from '../../types/planner';
 import { getDateLabelForDay } from '../../utils/dateUtils';
+import { useTranslation } from '../../i18n';
 
 interface MealCardProps {
   day: DayOfWeek;
@@ -22,8 +23,9 @@ export const MealCard: React.FC<MealCardProps> = ({
   currencyPosition = 'prefix',
   onEdit,
 }) => {
+  const { t, language } = useTranslation();
   const hasMeal = Boolean(meal && meal.course.trim().length > 0);
-  const dateLabel = getDateLabelForDay(year, weekNumber, day);
+  const dateLabel = getDateLabelForDay(year, weekNumber, day, language);
 
   const formattedCost = meal && meal.cost > 0
     ? currencyPosition === 'prefix'
@@ -60,7 +62,7 @@ export const MealCard: React.FC<MealCardProps> = ({
             }`}
           >
             <span className="text-xs font-bold uppercase tracking-tight">
-              {day.slice(0, 3)}
+              {t.daysShort[day]}
             </span>
             <span className="text-[10px] text-slate-500 font-medium leading-none">
               {dateLabel}
@@ -71,7 +73,7 @@ export const MealCard: React.FC<MealCardProps> = ({
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 mb-0.5">
               <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                {day}
+                {t.days[day]}
               </span>
             </div>
 
@@ -86,7 +88,7 @@ export const MealCard: React.FC<MealCardProps> = ({
                   <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
                     <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md font-medium">
                       <ShoppingBag className="w-3 h-3 text-slate-400" />
-                      {meal!.ingredients.length} {meal!.ingredients.length === 1 ? 'ingredient' : 'ingredients'}
+                      {t.ingredientCount(meal!.ingredients.length)}
                     </span>
                     <span className="text-[11px] text-slate-400 truncate max-w-[160px]">
                       {meal!.ingredients.map((i) => i.name).slice(0, 2).join(', ')}
@@ -94,13 +96,13 @@ export const MealCard: React.FC<MealCardProps> = ({
                     </span>
                   </div>
                 ) : (
-                  <p className="text-[11px] text-slate-400 italic mt-0.5">No ingredients listed</p>
+                  <p className="text-[11px] text-slate-400 italic mt-0.5">{t.noIngredientsListed}</p>
                 )}
               </div>
             ) : (
               <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-brand-600 transition-colors py-1">
                 <Utensils className="w-3.5 h-3.5" />
-                <span className="text-xs font-medium">No dinner planned yet</span>
+                <span className="text-xs font-medium">{t.noDinnerPlanned}</span>
               </div>
             )}
           </div>

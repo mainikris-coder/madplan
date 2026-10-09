@@ -272,6 +272,7 @@ export function extractAndParseMealData(
     currencySymbol: 'kr.',
     currencyPosition: 'suffix',
     theme: 'system',
+    language: 'da',
   };
 
   const rawObj = rawJSON as Record<string, unknown>;
@@ -284,6 +285,7 @@ export function extractAndParseMealData(
         currencySymbol: typeof s.currencySymbol === 'string' ? s.currencySymbol : 'kr.',
         currencyPosition: s.currencyPosition === 'prefix' ? 'prefix' : 'suffix',
         theme: s.theme === 'dark' || s.theme === 'light' ? s.theme : 'system',
+        language: s.language === 'en' ? 'en' : 'da',
       };
     }
 

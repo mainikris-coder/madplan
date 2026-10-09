@@ -3,6 +3,7 @@ import { usePlanner } from '../../context/PlannerContext';
 import { SpendingChart } from './SpendingChart';
 import { HistoricalWeekList } from './HistoricalWeekList';
 import { Wallet, TrendingUp, TrendingDown, Utensils } from 'lucide-react';
+import { useTranslation } from '../../i18n';
 
 export const AnalyticsView: React.FC = () => {
   const {
@@ -12,6 +13,8 @@ export const AnalyticsView: React.FC = () => {
     selectWeek,
     setActiveTab,
   } = usePlanner();
+
+  const { t } = useTranslation();
 
   // Compute Analytics Metrics
   const activeWeeks = allWeeks.filter((w) => w.totalSpent > 0);
@@ -50,10 +53,10 @@ export const AnalyticsView: React.FC = () => {
       {/* Title & context */}
       <div>
         <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-          Spending & Analytics
+          {t.analyticsTitle}
         </h2>
         <p className="text-xs text-slate-400 mt-0.5">
-          Historical overview of grocery spending trends
+          {t.analyticsSubtitle}
         </p>
       </div>
 
@@ -64,14 +67,14 @@ export const AnalyticsView: React.FC = () => {
           <div className="flex items-center gap-1.5 text-slate-400 mb-1">
             <Wallet className="w-3.5 h-3.5 text-brand-600" />
             <span className="text-[11px] font-semibold uppercase tracking-wider">
-              Avg Weekly
+              {t.avgWeekly}
             </span>
           </div>
           <div>
             <p className="text-lg font-black text-slate-800 tracking-tight leading-none">
               {formatAmount(avgWeekly)}
             </p>
-            <p className="text-[10px] text-slate-400 mt-1">Across recorded weeks</p>
+            <p className="text-[10px] text-slate-400 mt-1">{t.acrossRecordedWeeks}</p>
           </div>
         </div>
 
@@ -80,7 +83,7 @@ export const AnalyticsView: React.FC = () => {
           <div className="flex items-center gap-1.5 text-slate-400 mb-1">
             <TrendingUp className="w-3.5 h-3.5 text-rose-500" />
             <span className="text-[11px] font-semibold uppercase tracking-wider">
-              Highest Week
+              {t.highestWeek}
             </span>
           </div>
           <div>
@@ -88,7 +91,7 @@ export const AnalyticsView: React.FC = () => {
               {highestWeek ? formatAmount(highestWeek.totalSpent) : '–'}
             </p>
             <p className="text-[10px] text-slate-400 mt-1">
-              {highestWeek ? `Week ${highestWeek.weekNumber}` : 'No data'}
+              {highestWeek ? t.weekNumberLabel(highestWeek.weekNumber, highestWeek.year) : t.noData}
             </p>
           </div>
         </div>
@@ -98,7 +101,7 @@ export const AnalyticsView: React.FC = () => {
           <div className="flex items-center gap-1.5 text-slate-400 mb-1">
             <TrendingDown className="w-3.5 h-3.5 text-emerald-500" />
             <span className="text-[11px] font-semibold uppercase tracking-wider">
-              Lowest Week
+              {t.lowestWeek}
             </span>
           </div>
           <div>
@@ -106,7 +109,7 @@ export const AnalyticsView: React.FC = () => {
               {lowestWeek ? formatAmount(lowestWeek.totalSpent) : '–'}
             </p>
             <p className="text-[10px] text-slate-400 mt-1">
-              {lowestWeek ? `Week ${lowestWeek.weekNumber}` : 'No data'}
+              {lowestWeek ? t.weekNumberLabel(lowestWeek.weekNumber, lowestWeek.year) : t.noData}
             </p>
           </div>
         </div>
@@ -116,14 +119,14 @@ export const AnalyticsView: React.FC = () => {
           <div className="flex items-center gap-1.5 text-slate-400 mb-1">
             <Utensils className="w-3.5 h-3.5 text-amber-500" />
             <span className="text-[11px] font-semibold uppercase tracking-wider">
-              Total Dinners
+              {t.totalDinners}
             </span>
           </div>
           <div>
             <p className="text-lg font-black text-slate-800 tracking-tight leading-none">
               {totalMealsPlanned}
             </p>
-            <p className="text-[10px] text-slate-400 mt-1">Planned family meals</p>
+            <p className="text-[10px] text-slate-400 mt-1">{t.plannedFamilyMeals}</p>
           </div>
         </div>
       </div>

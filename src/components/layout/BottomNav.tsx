@@ -1,6 +1,7 @@
 import React from 'react';
 import { CalendarDays, BarChart3, Settings } from 'lucide-react';
 import { NavigationTab } from '../../types/planner';
+import { useTranslation } from '../../i18n';
 
 interface BottomNavProps {
   activeTab: NavigationTab;
@@ -11,20 +12,22 @@ export const BottomNav: React.FC<BottomNavProps> = ({
   activeTab,
   onChangeTab,
 }) => {
+  const { t } = useTranslation();
+
   const navItems = [
     {
       id: 'planner' as NavigationTab,
-      label: 'Planner',
+      label: t.navPlanner,
       icon: CalendarDays,
     },
     {
       id: 'analytics' as NavigationTab,
-      label: 'Analytics',
+      label: t.navAnalytics,
       icon: BarChart3,
     },
     {
       id: 'settings' as NavigationTab,
-      label: 'Settings',
+      label: t.navSettings,
       icon: Settings,
     },
   ];
