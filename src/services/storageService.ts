@@ -196,6 +196,7 @@ export function generateSeedData(): AppDatabase {
       currencySymbol: 'kr.',
       currencyPosition: 'suffix',
       theme: 'system',
+      language: 'da',
     },
   };
 }
@@ -217,6 +218,18 @@ export function loadDatabase(): AppDatabase {
       const seeded = generateSeedData();
       saveDatabase(seeded);
       return seeded;
+    }
+
+    // Ensure default language is 'da' if not set
+    if (!parsed.settings) {
+      parsed.settings = {
+        currencySymbol: 'kr.',
+        currencyPosition: 'suffix',
+        theme: 'system',
+        language: 'da',
+      };
+    } else if (!parsed.settings.language) {
+      parsed.settings.language = 'da';
     }
 
     return parsed;
@@ -269,6 +282,7 @@ export function clearAllData(currentSettings?: AppDatabase['settings']): AppData
       currencySymbol: 'kr.',
       currencyPosition: 'suffix',
       theme: 'system',
+      language: 'da',
     },
   };
 
@@ -306,6 +320,7 @@ export function importDatabaseJSON(jsonStr: string): { success: boolean; error?:
         currencySymbol: 'kr.',
         currencyPosition: 'suffix',
         theme: 'system',
+        language: 'da',
       },
     };
 

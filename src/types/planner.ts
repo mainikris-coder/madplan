@@ -42,10 +42,13 @@ export interface WeekPlan {
   updatedAt: string;
 }
 
+export type Language = 'da' | 'en';
+
 export interface AppSettings {
   currencySymbol: string;
   currencyPosition: 'prefix' | 'suffix';
   theme: 'light' | 'dark' | 'system';
+  language?: Language;
 }
 
 export interface AppDatabase {

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Calendar, ArrowRight } from 'lucide-react';
-import { WeekPlan, AppSettings } from '../../types/planner';
+import { WeekPlan, AppSettings, DayOfWeek } from '../../types/planner';
 import { formatWeekDateRange } from '../../utils/dateUtils';
+import { useTranslation } from '../../i18n';
 
 interface HistoricalWeekListProps {
   weeks: WeekPlan[];
@@ -16,6 +17,8 @@ export const HistoricalWeekList: React.FC<HistoricalWeekListProps> = ({
   currentSelectedWeekId,
   onSelectAndOpenPlanner,
 }) => {
+  const { t, language } = useTranslation();
+
   // Sort descending by year and weekNumber (newest first)
   const sortedWeeks = [...weeks].sort((a, b) => {
     if (a.year !== b.year) return b.year - a.year;
@@ -32,10 +35,10 @@ export const HistoricalWeekList: React.FC<HistoricalWeekListProps> = ({
     <div className="space-y-3">
       <div className="flex items-center justify-between px-1">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-          Weekly Spending History
+          {t.weeklyHistory}
         </h3>
         <span className="text-[11px] text-slate-400 font-medium">
-          {weeks.length} {weeks.length === 1 ? 'week recorded' : 'weeks recorded'}
+          {t.weeksRecorded(weeks.length)}
         </span>
       </div>
 
@@ -86,17 +89,17 @@ export const HistoricalWeekList: React.FC<HistoricalWeekListProps> = ({
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
                       <h4 className="text-sm font-bold text-slate-800 leading-none">
-                        Week {week.weekNumber}, {week.year}
+                        {t.weekNumberLabel(week.weekNumber, week.year)}
                       </h4>
                       {isSelected && (
                         <span className="text-[10px] font-semibold text-brand-700 bg-brand-50 px-1.5 py-0.2 rounded-md border border-brand-200">
-                          Active
+                          {t.active}
                         </span>
                       )}
                     </div>
                     <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
                       <Calendar className="w-3 h-3 text-slate-400" />
-                      {formatWeekDateRange(week.year, week.weekNumber)} • {plannedCount}/7 dinners
+                      {formatWeekDateRange(week.year, week.weekNumber, language)} • {t.dinnersCount(plannedCount)}
                     </p>
                   </div>
                 </div>
@@ -138,6 +141,8 @@ export const HistoricalWeekList: React.FC<HistoricalWeekListProps> = ({
                           : `${meal.cost.toFixed(2)} ${settings.currencySymbol}`
                         : null;
 
+                      const shortDay = t.daysShort[meal.day as DayOfWeek] || meal.day.slice(0, 3);
+
                       return (
                         <div
                           key={meal.id}
@@ -145,14 +150,14 @@ export const HistoricalWeekList: React.FC<HistoricalWeekListProps> = ({
                         >
                           <div className="flex items-center gap-2 min-w-0">
                             <span className="font-bold text-slate-400 w-7 shrink-0 text-[11px]">
-                              {meal.day.slice(0, 3)}
+                              {shortDay}
                             </span>
                             <span
                               className={`truncate font-medium ${
                                 meal.course ? 'text-slate-800' : 'text-slate-400 italic'
                               }`}
                             >
-                              {meal.course || 'No dinner planned'}
+                              {meal.course || t.noDinnerPlanned}
                             </span>
                           </div>
 
@@ -171,7 +176,7 @@ export const HistoricalWeekList: React.FC<HistoricalWeekListProps> = ({
                       onClick={() => onSelectAndOpenPlanner(week.id)}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-xs transition-colors"
                     >
-                      <span>Open in Weekly Planner</span>
+                      <span>{t.openInPlanner}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>

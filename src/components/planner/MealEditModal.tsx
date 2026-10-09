@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Trash2, Plus, Check, Coins, Sparkles } from 'lucide-react';
 import { MealEntry, DayOfWeek, IngredientItem } from '../../types/planner';
 import { getDateLabelForDay } from '../../utils/dateUtils';
+import { useTranslation } from '../../i18n';
 
 interface MealEditModalProps {
   isOpen: boolean;
@@ -16,19 +17,6 @@ interface MealEditModalProps {
   onClear: (day: DayOfWeek) => void;
 }
 
-const POPULAR_MEAL_SUGGESTIONS = [
-  'Boller i karry',
-  'Frikadeller med kartofler',
-  'Stegt flæsk med persillesovs',
-  'Tarteletter med høns i asparges',
-  'Hakkebøf med bløde løg',
-  'Pasta med kødsovs',
-  'Kylling i karry med ris',
-  'Laks med ovnbagte rodfrugter',
-  'Mørbradgryde',
-  'Hjemmelavet pizza',
-];
-
 export const MealEditModal: React.FC<MealEditModalProps> = ({
   isOpen,
   day,
@@ -41,6 +29,7 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
   onSave,
   onClear,
 }) => {
+  const { t, language } = useTranslation();
   const [course, setCourse] = useState('');
   const [cost, setCost] = useState<string>('');
   const [ingredients, setIngredients] = useState<IngredientItem[]>([]);
@@ -48,6 +37,7 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
   const [notes, setNotes] = useState('');
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const dateLabel = getDateLabelForDay(year, weekNumber, day, language);
 
   // Sync state when modal opens or meal changes
   useEffect(() => {
@@ -81,8 +71,6 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
-
-  const dateLabel = getDateLabelForDay(year, weekNumber, day);
 
   const handleAddIngredient = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -155,14 +143,14 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
         <div className="flex items-center justify-between px-5 pt-3 pb-3 border-b border-slate-100">
           <div>
             <h2 id="meal-modal-title" className="text-base font-bold text-slate-900">
-              {day} Dinner
+              {t.dinnerTitle(t.days[day])}
             </h2>
             <p className="text-xs text-slate-500 font-medium">{dateLabel}</p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close modal"
+            aria-label={t.close}
             className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />
@@ -174,7 +162,7 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
           {/* Meal Name Input */}
           <div>
             <label htmlFor="course-name" className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
-              Meal / Course Name
+              {t.mealNameLabel}
             </label>
             <input
               ref={inputRef}
@@ -182,16 +170,16 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
               type="text"
               value={course}
               onChange={(e) => setCourse(e.target.value)}
-              placeholder="e.g. Spaghetti Bolognese"
+              placeholder={t.mealNamePlaceholder}
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all font-medium"
             />
 
             {/* Quick suggestions */}
             <div className="flex items-center gap-1.5 mt-2 overflow-x-auto pb-1 no-scrollbar">
               <span className="text-[11px] text-slate-400 flex items-center gap-1 shrink-0 font-medium">
-                <Sparkles className="w-3 h-3 text-amber-500" /> Ideas:
+                <Sparkles className="w-3 h-3 text-amber-500" /> {t.ideas}
               </span>
-              {POPULAR_MEAL_SUGGESTIONS.map((item) => (
+              {t.mealSuggestions.map((item) => (
                 <button
                   key={item}
                   type="button"
@@ -207,7 +195,7 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
           {/* Cost Input */}
           <div>
             <label htmlFor="meal-cost" className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
-              Cost of Ingredients
+              {t.costLabel}
             </label>
             <div className="relative rounded-xl border border-slate-200 focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-brand-500 transition-all">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 font-semibold text-sm">
@@ -236,10 +224,10 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
-                Ingredients List
+                {t.ingredientsLabel}
               </label>
               <span className="text-[11px] text-slate-400">
-                {ingredients.length} items
+                {t.itemCount(ingredients.length)}
               </span>
             </div>
 
@@ -255,7 +243,7 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
                     handleAddIngredient();
                   }
                 }}
-                placeholder="Add ingredient (e.g. Minced beef)..."
+                placeholder={t.addIngredientPlaceholder}
                 className="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
               />
               <button
@@ -265,7 +253,7 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
                 className="px-3 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 disabled:opacity-40 text-white text-xs font-semibold flex items-center gap-1 transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" />
-                Add
+                {t.add}
               </button>
             </div>
 
@@ -314,21 +302,21 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
                 ))}
               </ul>
             ) : (
-              <p className="text-[11px] text-slate-400 italic">No ingredients added yet.</p>
+              <p className="text-[11px] text-slate-400 italic">{t.noIngredientsYet}</p>
             )}
           </div>
 
           {/* Optional Notes */}
           <div>
             <label htmlFor="meal-notes" className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
-              Notes / Cook (Optional)
+              {t.notesLabel}
             </label>
             <input
               id="meal-notes"
               type="text"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="e.g. Mom cooking, double recipe for leftovers"
+              placeholder={t.notesPlaceholder}
               className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
             />
           </div>
@@ -342,7 +330,7 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
                 className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
-                Clear
+                {t.clear}
               </button>
             ) : (
               <div />
@@ -354,13 +342,13 @@ export const MealEditModal: React.FC<MealEditModalProps> = ({
                 onClick={onClose}
                 className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors"
               >
-                Cancel
+                {t.cancel}
               </button>
               <button
                 type="submit"
                 className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-colors"
               >
-                Save Dinner
+                {t.saveDinner}
               </button>
             </div>
           </div>

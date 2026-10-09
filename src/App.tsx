@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PlannerProvider, usePlanner } from './context/PlannerContext';
 import { AppShell } from './components/layout/AppShell';
 import { PlannerView } from './components/planner/PlannerView';
 import { AnalyticsView } from './components/analytics/AnalyticsView';
 import { SettingsView } from './components/settings/SettingsView';
 import { formatWeekDateRange } from './utils/dateUtils';
+import { useTranslation } from './i18n';
 
 const AppContent: React.FC = () => {
   const {
@@ -17,10 +18,17 @@ const AppContent: React.FC = () => {
     goToCurrentWeek,
   } = usePlanner();
 
-  const currentWeekText = `Week ${selectedWeek.weekNumber} (${formatWeekDateRange(
-    selectedWeek.year,
-    selectedWeek.weekNumber
-  )})`;
+  const { t, language } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.title = `${t.appTitle} | madplan`;
+  }, [language, t.appTitle]);
+
+  const currentWeekText = t.weekLabel(
+    selectedWeek.weekNumber,
+    formatWeekDateRange(selectedWeek.year, selectedWeek.weekNumber, language)
+  );
 
   return (
     <AppShell

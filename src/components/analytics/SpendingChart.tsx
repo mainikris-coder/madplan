@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { WeekPlan, AppSettings } from '../../types/planner';
 import { formatWeekDateRange } from '../../utils/dateUtils';
+import { useTranslation } from '../../i18n';
 
 interface SpendingChartProps {
   weeks: WeekPlan[];
@@ -42,6 +43,8 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   currencySymbol,
   currencyPosition = 'prefix',
 }) => {
+  const { t } = useTranslation();
+
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     const formattedSpent = currencyPosition === 'prefix'
@@ -55,12 +58,12 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
           <span className="text-[10px] text-slate-400">{data.dateRange}</span>
         </div>
         <div className="flex items-center justify-between gap-3 pt-0.5">
-          <span className="text-slate-400">Total Spent:</span>
+          <span className="text-slate-400">{t.chartSpent}:</span>
           <span className="font-bold text-brand-400 text-sm">{formattedSpent}</span>
         </div>
         {data.meals && data.meals.filter((m) => m.course).length > 0 && (
           <div className="pt-1 border-t border-slate-800/80 text-[10px] text-slate-400">
-            <span className="text-slate-300 font-medium">Planned: </span>
+            <span className="text-slate-300 font-medium">{t.plannedLabel}: </span>
             {data.meals
               .filter((m) => m.course)
               .slice(0, 3)
@@ -81,12 +84,13 @@ export const SpendingChart: React.FC<SpendingChartProps> = ({
   selectedWeekId,
   onSelectWeek,
 }) => {
+  const { t, language } = useTranslation();
   const [chartType, setChartType] = useState<'bar' | 'trend'>('bar');
 
   const chartData = weeks.map((w) => ({
     weekId: w.id,
     weekLabel: `W${w.weekNumber}`,
-    dateRange: formatWeekDateRange(w.year, w.weekNumber),
+    dateRange: formatWeekDateRange(w.year, w.weekNumber, language),
     totalSpent: w.totalSpent,
     budgetGoal: w.budgetGoal || 850,
     meals: w.meals,
@@ -100,10 +104,10 @@ export const SpendingChart: React.FC<SpendingChartProps> = ({
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-            Spending Trends
+            {t.spendingTrends}
           </h3>
           <p className="text-[11px] text-slate-400">
-            Total weekly expenses over time
+            {t.spendingTrendsSubtitle}
           </p>
         </div>
 
@@ -117,7 +121,7 @@ export const SpendingChart: React.FC<SpendingChartProps> = ({
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            Bars
+            {t.chartBars}
           </button>
           <button
             type="button"
@@ -128,7 +132,7 @@ export const SpendingChart: React.FC<SpendingChartProps> = ({
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            Pills
+            {t.chartPills}
           </button>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Coins } from 'lucide-react';
+import { useTranslation } from '../../i18n';
 
 interface HeaderProps {
   currentWeekText: string;
@@ -24,6 +25,8 @@ export const Header: React.FC<HeaderProps> = ({
   onCurrentWeek,
   showWeekNav = true,
 }) => {
+  const { t } = useTranslation();
+
   const formattedSpend = currencyPosition === 'prefix'
     ? `${currencySymbol}${totalSpent.toFixed(2)}`
     : `${totalSpent.toFixed(2)} ${currencySymbol}`;
@@ -40,12 +43,12 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <h1 className="text-sm font-bold tracking-tight text-slate-900 leading-tight">
-              Weekly Dinner
+              {t.appTitle}
             </h1>
             <button
               onClick={onCurrentWeek}
               className="flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-brand-600 transition-colors"
-              title="Click to jump to current week"
+              title={t.jumpToCurrentWeek}
             >
               <Calendar className="w-3 h-3" />
               <span>{currentWeekText}</span>
@@ -60,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={onPrevWeek}
-                aria-label="Previous Week"
+                aria-label={t.prevWeek}
                 className="p-1.5 rounded-md hover:bg-white active:bg-slate-200 text-slate-600 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -68,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={onNextWeek}
-                aria-label="Next Week"
+                aria-label={t.nextWeek}
                 className="p-1.5 rounded-md hover:bg-white active:bg-slate-200 text-slate-600 transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />

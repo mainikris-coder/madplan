@@ -1,4 +1,4 @@
-import { DayOfWeek, DAYS_OF_WEEK } from '../types/planner';
+import { DayOfWeek, DAYS_OF_WEEK, Language } from '../types/planner';
 
 /**
  * Calculates the ISO 8601 week number and ISO year for a given date.
@@ -82,15 +82,27 @@ export function getNextWeek(year: number, weekNumber: number): { year: number; w
 }
 
 /**
- * Formats the date range for the week (e.g. "Sep 28 – Oct 4").
+ * Formats the date range for the week (e.g. "28. sep. – 4. okt." in DA, "Sep 28 – Oct 4" in EN).
  */
-export function formatWeekDateRange(year: number, weekNumber: number): string {
+export function formatWeekDateRange(
+  year: number,
+  weekNumber: number,
+  language: Language = 'da'
+): string {
   const monday = getMondayOfWeek(year, weekNumber);
   const sunday = new Date(monday);
   sunday.setDate(monday.getDate() + 6);
 
-  const monMonth = monday.toLocaleString('en-US', { month: 'short' });
-  const sunMonth = sunday.toLocaleString('en-US', { month: 'short' });
+  const locale = language === 'da' ? 'da-DK' : 'en-US';
+  const monMonth = monday.toLocaleString(locale, { month: 'short' });
+  const sunMonth = sunday.toLocaleString(locale, { month: 'short' });
+
+  if (language === 'da') {
+    if (monMonth === sunMonth) {
+      return `${monday.getDate()}. – ${sunday.getDate()}. ${monMonth}`;
+    }
+    return `${monday.getDate()}. ${monMonth} – ${sunday.getDate()}. ${sunMonth}`;
+  }
 
   if (monMonth === sunMonth) {
     return `${monMonth} ${monday.getDate()} – ${sunday.getDate()}`;
@@ -99,12 +111,18 @@ export function formatWeekDateRange(year: number, weekNumber: number): string {
 }
 
 /**
- * Returns the date label for a specific day of the week (e.g. "Oct 2").
+ * Returns the date label for a specific day of the week (e.g. "2. okt." in DA, "Oct 2" in EN).
  */
-export function getDateLabelForDay(year: number, weekNumber: number, day: DayOfWeek): string {
+export function getDateLabelForDay(
+  year: number,
+  weekNumber: number,
+  day: DayOfWeek,
+  language: Language = 'da'
+): string {
   const dayIndex = DAYS_OF_WEEK.indexOf(day);
   const monday = getMondayOfWeek(year, weekNumber);
   const targetDate = new Date(monday);
   targetDate.setDate(monday.getDate() + (dayIndex >= 0 ? dayIndex : 0));
-  return targetDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const locale = language === 'da' ? 'da-DK' : 'en-US';
+  return targetDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' });
 }
